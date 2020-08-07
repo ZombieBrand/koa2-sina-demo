@@ -18,9 +18,9 @@ router.get("/profile/:userName", async (ctx, next) => {
     userName
   };
 });
-router.get('/loadMore/:userName/:pageIndex', async (ctx,next)=>{
-  const {userName,pageIndex}=ctx.params
-  ctx.body={
+router.get('/loadMore/:userName/:pageIndex', async (ctx, next) => {
+  const { userName, pageIndex } = ctx.params
+  ctx.body = {
     userName,
     pageIndex
   }
