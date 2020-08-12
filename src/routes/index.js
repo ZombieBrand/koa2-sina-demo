@@ -12,7 +12,7 @@ router.get("/json", async (ctx, next) => {
   //   session.viewNum = 0
   // }
   // session.viewNum++
-  
+
   ctx.body = {
     title: "koa2 json",
     // viewNum:session.viewNum
@@ -22,14 +22,14 @@ router.get("/json", async (ctx, next) => {
 router.get("/profile/:userName", async (ctx, next) => {
   const { userName } = ctx.params;
   ctx.body = {
-    userName
+    userName,
   };
 });
-router.get('/loadMore/:userName/:pageIndex', async (ctx, next) => {
-  const { userName, pageIndex } = ctx.params
+router.get("/loadMore/:userName/:pageIndex", async (ctx, next) => {
+  const { userName, pageIndex } = ctx.params;
   ctx.body = {
     userName,
-    pageIndex
-  }
-})
+    pageIndex,
+  };
+});
 module.exports = router;

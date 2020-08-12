@@ -14,7 +14,7 @@ router.post("/login", async (ctx, next) => {
   const { userName, passWord } = ctx.request.body;
   ctx.body = {
     userName,
-    passWord
-  }
+    passWord,
+  };
 });
 module.exports = router;

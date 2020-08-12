@@ -6,6 +6,8 @@
     "start": "node bin/www",
     "dev": "cross-env NODE_ENV=dev ./node_modules/.bin/nodemon bin/www",
     "prd": "cross-env NODE_ENV=production pm2 start bin/www",
+    "lint": "eslint --ext .js src",
+    "lintFix": "eslint --fix src",
     "test": "cross-env NODE_ENV=test jest --runInBand --forceExit --colors"
   },
   "dependencies": {
@@ -27,9 +29,15 @@
     "sequelize": "^6.3.4"
   },
   "devDependencies": {
+    "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.2",
+    "eslint": "^7.6.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
     "jest": "^26.3.0",
     "nodemon": "^2.0.4",
+    "prettier": "2.0.5",
     "supertest": "^4.0.2"
   }
 }
