@@ -9,12 +9,19 @@ const session = require("koa-generic-session");
 const redisStore = require("koa-redis");
 
 const { REDIS_CONF } = require("./config/db");
+const { isProd } = require("./utils/env");
 
 const index = require("./routes/index");
 const users = require("./routes/users");
-
+const errorViewRouter = require("./routes/view/error");
 // error handler
-onerror(app);
+let onerrorConfig = {};
+if (isProd) {
+  onerrorConfig = {
+    redirect: "/error",
+  };
+}
+onerror(app, onerrorConfig);
 
 // middlewares
 app.use(
@@ -60,7 +67,7 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods());
 app.use(users.routes(), users.allowedMethods());
-
+app.use(errorViewRouter.routes(errorViewRouter.allowedMethods())); //404注册最后
 // error-handling
 app.on("error", (err, ctx) => {
   console.error("server error", err, ctx);
