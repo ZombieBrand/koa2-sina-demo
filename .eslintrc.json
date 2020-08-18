@@ -2,8 +2,7 @@
     "parser": "babel-eslint",
     "extends": [
         "eslint:recommended",
-        "plugin:node/recommended",
-        "plugin:prettier/recommended"
+        "plugin:node/recommended"
     ],
     "env": {
         "es6": true,

@@ -13,6 +13,7 @@ const { isProd } = require("./utils/env");
 // 路由
 const index = require("./routes/view/index");
 const users = require("./routes/view/users");
+const usersAPI = require("./routes/api/user");
 const errorViewRouter = require("./routes/view/error");
 // error handler
 let onerrorConfig = {};
@@ -67,6 +68,7 @@ app.use(async (ctx, next) => {
 // routes
 app.use(index.routes(), index.allowedMethods());
 app.use(users.routes(), users.allowedMethods());
+app.use(usersAPI.routes(), usersAPI.allowedMethods());
 app.use(errorViewRouter.routes(errorViewRouter.allowedMethods())); //404注册最后
 // error-handling
 app.on("error", (err, ctx) => {
