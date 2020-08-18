@@ -10,9 +10,9 @@ const redisStore = require("koa-redis");
 
 const { REDIS_CONF } = require("./config/db");
 const { isProd } = require("./utils/env");
-
-const index = require("./routes/index");
-const users = require("./routes/users");
+// 路由
+const index = require("./routes/view/index");
+const users = require("./routes/view/users");
 const errorViewRouter = require("./routes/view/error");
 // error handler
 let onerrorConfig = {};

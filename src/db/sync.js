@@ -4,7 +4,7 @@
  */
 
 const seq = require("./seq");
-
+require("./model/index.js");
 //测试连接
 seq
   .authenticate()
@@ -18,5 +18,5 @@ seq
 //执行同步
 seq.sync({ force: true }).then(() => {
   console.log("sync ok");
-  // process.exit()
+  seq.close();
 });
