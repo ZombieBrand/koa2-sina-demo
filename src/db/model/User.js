@@ -10,7 +10,7 @@ const User = seq.define("user", {
   userName: {
     type: STRING,
     allowNull: false,
-    unique: true,
+    unique: true,//唯一存在
     comment: "用户名唯一",
   },
   password: {

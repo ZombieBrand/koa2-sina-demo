@@ -10,6 +10,7 @@ const redisStore = require("koa-redis");
 
 const { REDIS_CONF } = require("./config/db");
 const { isProd } = require("./utils/env");
+const {SESSION_SECRET_KEY} = require("./config/secretKeys")
 // 路由
 const index = require("./routes/view/index");
 const users = require("./routes/view/users");
@@ -41,7 +42,7 @@ app.use(
 );
 
 // session 配置
-app.keys = ["jdfisofjao"];
+app.keys = [SESSION_SECRET_KEY]
 app.use(
   session({
     key: "weibo.sid", //cookie name
