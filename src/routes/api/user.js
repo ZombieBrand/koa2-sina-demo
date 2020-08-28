@@ -4,7 +4,7 @@
  */
 
 const router = require("koa-router")();
-const { isExist, register } = require('../../controller/user')
+const { isExist, register, login } = require('../../controller/user')
 const userValidate = require('../../vaildator/user')
 const { genValidator } = require('../../middlewares/vaildator')
 // const user
@@ -47,6 +47,45 @@ router.post("/register", genValidator(userValidate), async (ctx, next) => {
     })
     next()
 });
+
+/**
+ * @api {post} /api/user/login 登录接口
+ * @apiGroup User
+ * @apiDescription 登录接口
+ * @apiParam {String} userName 用户名
+ * @apiParam {String} password 密码
+ * @apiParamExample {json} Request-Example
+ * {
+ *  "userName":"test",
+ *  "password":"test123",
+ * }
+ * 
+ * @apiError {String} message 错误信息
+ * @apiErrorExample  {json} error-example
+ * {
+ *  "errno": "10004"
+ *  "message":"登录失败,用户名活密码错误"
+ * }
+ * 
+ * @apiSuccessExample {json} success-example
+ * {
+ *  "errno": "0"
+ *  "data":""
+ * }
+ * 
+ */
+router.post("/login", genValidator(userValidate), async (ctx, next) => {
+    const { userName, password } = ctx.request.body
+    //调用 controller
+    ctx.body = await login({
+        ctx,
+        userName,
+        password
+    })
+    next()
+});
+
+
 
 /**
  * @api {post} /api/user/isExist 查询用户是否存在
