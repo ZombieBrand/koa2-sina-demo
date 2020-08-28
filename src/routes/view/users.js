@@ -24,11 +24,11 @@ function getLoginInfo(ctx) {
 
 router.get("/login", async (ctx, next) => {
   await ctx.render("login", getLoginInfo(ctx));
-  next();
+  await next();
 });
 
 router.get("/register", async (ctx, next) => {
   await ctx.render("register", getLoginInfo(ctx));
-  next();
+  await next();
 });
 module.exports = router;
