@@ -20,6 +20,10 @@ module.exports = {
         errno: 10004,
         message: '登录失败,用户名活密码错误'
     },
+    loginCheckFailInfo: {
+        errno: 10005,
+        message: '您尚未登录'
+    },
     jsonSchemaFileInfo: {
         errno: 10009,
         message: '数据格式校验错误'
