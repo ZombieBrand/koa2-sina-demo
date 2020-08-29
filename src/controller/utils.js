@@ -36,7 +36,8 @@ async function saveFile({ name, type, size, filePath }) {
         const distFilePath = path.join(DIST_FOLDER_PATH, fileName)
         await fse.move(filePath, distFilePath)
         return new SuccessModel({
-            url: `/${fileName}`
+            url: `/${fileName}`,
+            fileType:type
         })
     }
 }
