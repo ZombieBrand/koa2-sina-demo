@@ -6,12 +6,12 @@
 const router = require("koa-router")();
 
 //error
-router.get("/error", async (ctx, next) => {
+router.get("/error", async (ctx) => {
   await ctx.render("error");
 });
 
 //404
-router.get("*", async (ctx, next) => {
+router.get("*", async (ctx) => {
   await ctx.render("404");
 });
 

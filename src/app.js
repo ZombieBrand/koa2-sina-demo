@@ -7,15 +7,17 @@ const bodyparser = require("koa-bodyparser");
 const logger = require("koa-logger");
 const session = require("koa-generic-session");
 const redisStore = require("koa-redis");
-
+const static = require("koa-static")
+const path = require('path')
 const { REDIS_CONF } = require("./config/db");
 const { isProd } = require("./utils/env");
-const {SESSION_SECRET_KEY} = require("./config/secretKeys")
+const { SESSION_SECRET_KEY } = require("./config/secretKeys")
 // 路由
 const index = require("./routes/view/index");
 const users = require("./routes/view/users");
 const usersAPI = require("./routes/api/user");
 const errorViewRouter = require("./routes/view/error");
+const utilsAPIRouter = require("./routes/api/utils")
 // error handler
 let onerrorConfig = {};
 if (isProd) {
@@ -33,7 +35,8 @@ app.use(
 );
 app.use(json());
 app.use(logger());
-app.use(require("koa-static")(__dirname + "/public"));
+app.use(static(__dirname + "/public"));
+app.use(static(path.join(__dirname, '..', 'uploadFiles')));
 
 app.use(
   views(__dirname + "/views", {
@@ -70,6 +73,7 @@ app.use(async (ctx, next) => {
 app.use(index.routes(), index.allowedMethods());
 app.use(users.routes(), users.allowedMethods());
 app.use(usersAPI.routes(), usersAPI.allowedMethods());
+app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods());
 app.use(errorViewRouter.routes(errorViewRouter.allowedMethods())); //404注册最后
 // error-handling
 app.on("error", (err, ctx) => {

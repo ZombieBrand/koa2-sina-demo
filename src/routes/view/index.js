@@ -1,12 +1,12 @@
 const router = require("koa-router")();
 
-router.get("/", async (ctx, next) => {
+router.get("/", async (ctx) => {
   await ctx.render("index", {
     title: "Hello Koa 2!",
   });
 });
 
-router.get("/json", async (ctx, next) => {
+router.get("/json", async (ctx) => {
   // const session = ctx.session
   // if(session.viewNum === null){
   //   session.viewNum = 0
@@ -19,13 +19,13 @@ router.get("/json", async (ctx, next) => {
   };
 });
 
-router.get("/profile/:userName", async (ctx, next) => {
+router.get("/profile/:userName", async (ctx) => {
   const { userName } = ctx.params;
   ctx.body = {
     userName,
   };
 });
-router.get("/loadMore/:userName/:pageIndex", async (ctx, next) => {
+router.get("/loadMore/:userName/:pageIndex", async (ctx) => {
   const { userName, pageIndex } = ctx.params;
   ctx.body = {
     userName,

@@ -3,7 +3,7 @@
  * @author ZombieBrand
  */
 const router = require("koa-router")();
-
+const { loginRedirect } = require('../../middlewares/loginChecks')
 /**
  * 获取用户信息
  * @param {Object} ctx 
@@ -22,13 +22,15 @@ function getLoginInfo(ctx) {
   return data
 }
 
-router.get("/login", async (ctx, next) => {
+router.get("/login", async (ctx) => {
   await ctx.render("login", getLoginInfo(ctx));
-  await next();
 });
 
-router.get("/register", async (ctx, next) => {
+router.get("/register", async (ctx) => {
   await ctx.render("register", getLoginInfo(ctx));
-  await next();
 });
+
+router.get("/setting", loginRedirect, async (ctx) => {
+  await ctx.render("setting", ctx.session.userInfo)
+})
 module.exports = router;
