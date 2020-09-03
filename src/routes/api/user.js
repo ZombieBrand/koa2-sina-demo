@@ -4,7 +4,7 @@
  */
 
 const router = require("koa-router")();
-const { isExist, register, login, deleteCurUser } = require('../../controller/user')
+const { isExist, register, login, deleteCurUser, changeInfo } = require('../../controller/user')
 const userValidate = require('../../vaildator/user')
 const { genValidator } = require('../../middlewares/vaildator')
 const { isTest } = require('../../utils/env')
@@ -39,7 +39,7 @@ router.prefix("/api/user");
  * }
  * 
  */
-router.post("/register", genValidator(userValidate), async (ctx, next) => {
+router.post("/register", genValidator(userValidate), async (ctx) => {
     const { userName, password, gender } = ctx.request.body
     //调用 controller
     ctx.body = await register({
@@ -47,7 +47,6 @@ router.post("/register", genValidator(userValidate), async (ctx, next) => {
         password,
         gender
     })
-    await next()
 });
 
 /**
@@ -76,7 +75,7 @@ router.post("/register", genValidator(userValidate), async (ctx, next) => {
  * }
  * 
  */
-router.post("/login", genValidator(userValidate), async (ctx, next) => {
+router.post("/login", genValidator(userValidate), async (ctx) => {
     const { userName, password } = ctx.request.body
     //调用 controller
     ctx.body = await login({
@@ -84,7 +83,6 @@ router.post("/login", genValidator(userValidate), async (ctx, next) => {
         userName,
         password
     })
-    await next()
 });
 
 
@@ -106,20 +104,55 @@ router.post("/login", genValidator(userValidate), async (ctx, next) => {
  *  "message":"用户名已存在"
  * }
  * 
- * @apiSuccess {String} userName 用户名
- * @apiSuccess {String} createTime 创建时间
- * @apiSuccess {String} updateTime 更新时间
  * @apiSuccessExample {json} success-example
  * {
  *  "errno": "10003"
  *  "message":"用户名已存在"
  * }
  */
-router.post("/isExist", async (ctx, next) => {
+router.post("/isExist", async (ctx) => {
     const { userName } = ctx.request.body;
     ctx.body = await isExist(userName)
-    await next()
 });
+
+
+/**
+ * @api {post} /api/user/changeInfo 修改个人信息
+ * @apiGroup User
+ * @apiDescription 修改个人信息
+ * @apiParam {String} nickName 用户名
+ * @apiParam {String} city 城市
+ * @apiParam {String} picture 头像
+ * @apiParamExample {json} Request-Example
+ * {
+ *  "nickName":"zhangsan"
+ *  "city":"北京"
+ *  "picture":"头像url地址1"
+ * }
+ * 
+ * @apiError {String} message 错误信息
+ * @apiErrorExample  {json} error-example
+ * {
+ *  "errno": "10003"
+ *  "message":"用户名已存在"
+ * }
+ * 
+ * @apiSuccessExample {json} success-example
+ * {
+ *  "errno": "10003"
+ *  "message":"用户名已存在"
+ * }
+ */
+
+router.patch('/changeInfo', loginCheck, genValidator(userValidate), async (ctx) => {
+    const { nickName, city, picture } = ctx.request.body
+    ctx.body = await changeInfo(ctx, { nickName, city, picture })
+})
+
+
+
+
+
 
 
 
@@ -128,12 +161,12 @@ router.post("/isExist", async (ctx, next) => {
  */
 
 
-router.post("/delete", loginCheck, async (ctx, next) => {
+router.post("/delete", loginCheck, async (ctx) => {
     if (isTest) {
         // 测试环境可以删除当前登录账号
         const { userName } = ctx.session.userInfo
         ctx.body = await deleteCurUser(userName)
     }
-    await next()
 });
 module.exports = router;
+

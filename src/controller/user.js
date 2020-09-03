@@ -3,9 +3,9 @@
  * @author ZombieBrand
  */
 
-const { getUserInfo, createUser, deleteUser } = require('../services/user')
+const { getUserInfo, createUser, deleteUser, updateUser } = require('../services/user')
 const { SuccessModel, ErrorModel } = require('../model/ResModel')
-const { registerUserNameNotExistInfo, registerUserNameExistInfo, registerFailInfo, loginFailInfo, deleteUserFailInfo } = require('../model/ErrorInfo')
+const { registerUserNameNotExistInfo, registerUserNameExistInfo, registerFailInfo, loginFailInfo, deleteUserFailInfo, changeInfoFailInfo } = require('../model/ErrorInfo')
 const doCrypto = require('../utils/cryp')
 
 /**
@@ -69,6 +69,32 @@ async function register({ userName, password, gender }) {
 }
 
 /**
+ * 
+ * @param {Object} ctx 
+ * @param {String} nickName 昵称
+ * @param {String} city 城市
+ * @param {String} picture 头像
+ */
+async function changeInfo(ctx, { nickName, city, picture }) {
+    const { userName } = ctx.session.userInfo
+    if (!nickName) {
+        nickName = userName
+    }
+
+    const result = await updateUser({ newNickName: nickName, newCity: city, newPicture: picture }, { userName })
+    if (result) {
+        // 修改成功后修改session
+        Object.assign(ctx.session.userInfo, {
+            nickName,
+            city,
+            picture
+        })
+        return new SuccessModel()
+    }
+    return new ErrorModel(changeInfoFailInfo)
+}
+
+/**
  * 删除当前用户
  * @param {String} userName 
  */
@@ -79,4 +105,4 @@ async function deleteCurUser(userName) {
     }
     return new ErrorModel(deleteUserFailInfo)
 }
-module.exports = { isExist, register, login, deleteCurUser }
+module.exports = { isExist, register, login, deleteCurUser, changeInfo }

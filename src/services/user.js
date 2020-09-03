@@ -49,6 +49,40 @@ async function createUser({ userName, password, gender = 3, nickName }) {
 }
 
 /**
+ * 
+ * @param {Object} param0 要修改的内容 {newPassword,newNickName,newPicture,newCity}
+ * @param {Object} param1 查询条件 {userName,password}
+ */
+async function updateUser({ newPassword, newNickName, newPicture, newCity }, { userName, password }) {
+    // 拼接修改内容
+    const updateData = {}
+    if (newPassword) {
+        updateData.password = newPassword
+    }
+    if (newNickName) {
+        updateData.nickName = newNickName
+    }
+    if (newPicture) {
+        updateData.picture = newPicture
+    }
+    if (newCity) {
+        updateData.city = newCity
+    }
+    //拼接查询条件
+    const whereData = {
+        userName
+    }
+    if (password) {
+        whereData.password = password
+    }
+    // 执行修改
+    const result = await User.update(updateData, {
+        where: whereData
+    })
+    return result[0] > 0 // 修改行数大于零成功
+}
+
+/**
  * 数据库删除用户
  * @param {String} userName 
  */
@@ -63,5 +97,6 @@ async function deleteUser(userName) {
 module.exports = {
     getUserInfo,
     createUser,
-    deleteUser
+    deleteUser,
+    updateUser
 }

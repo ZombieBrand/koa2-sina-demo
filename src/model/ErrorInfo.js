@@ -28,6 +28,10 @@ module.exports = {
         errno: 10007,
         message: '上传文件尺寸过大'
     },
+    changeInfoFailInfo: {
+        errno: 10008,
+        message: '修改基本信息失败'
+    },
     jsonSchemaFileInfo: {
         errno: 10009,
         message: '数据格式校验错误'
