@@ -7,7 +7,7 @@ const bodyparser = require("koa-bodyparser");
 const logger = require("koa-logger");
 const session = require("koa-generic-session");
 const redisStore = require("koa-redis");
-const static = require("koa-static")
+const statics = require("koa-static")
 const path = require('path')
 const { REDIS_CONF } = require("./config/db");
 const { isProd } = require("./utils/env");
@@ -35,8 +35,8 @@ app.use(
 );
 app.use(json());
 app.use(logger());
-app.use(static(__dirname + "/public"));
-app.use(static(path.join(__dirname, '..', 'uploadFiles')));
+app.use(statics(__dirname + "/public"));
+app.use(statics(path.join(__dirname, '..', 'uploadFiles')));
 
 app.use(
   views(__dirname + "/views", {
