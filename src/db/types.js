@@ -1,6 +1,6 @@
 /**
  * @description 封装 sequelize 数据类型
- * @author 双月老师
+ * @author ZombieBrand
  */
 const { DataTypes } = require("sequelize");
 
