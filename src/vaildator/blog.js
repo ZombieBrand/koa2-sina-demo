@@ -3,7 +3,7 @@
  * @author ZombieBrand
  */
 
-const validate = require('./_vaildate')
+const _validate = require('./_vaildate')
 const SCHEMA = {
     type: 'object',
     properties: {
@@ -22,7 +22,7 @@ const SCHEMA = {
  * @param {Object} data 
  */
 function blogValidate(data = {}) {
-    return validate(SCHEMA, data)
+    return _validate(SCHEMA, data)
 }
 
 module.exports = blogValidate
