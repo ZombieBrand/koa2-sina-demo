@@ -5,7 +5,9 @@
 
 const router = require('koa-router')()
 const { loginCheck } = require('../../middlewares/loginChecks')
-const { createBlog, create } = require('../../controller/blog-home')
+const { create } = require('../../controller/blog-home')
+const { genValidator } = require('../../middlewares/vaildator')
+const { blogValidate } = require('../../vaildator/blog')
 router.prefix('/api/blog')
 
 /**
@@ -26,8 +28,8 @@ router.prefix('/api/blog')
  * @apiError {String} message 错误信息
  * @apiErrorExample  {json} error-example
  * {
- *  "errno": "10002"
- *  "message":"注册失败,请重试"
+ *  "errno": "11001"
+ *  "message":"创建微博失败,请重试"
  * }
  * 
  * @apiSuccessExample {json} success-example
@@ -37,7 +39,7 @@ router.prefix('/api/blog')
  * }
  * 
  */
-router.post('/create', loginCheck, async (ctx, next) => {
+router.post('/create', loginCheck, genValidator(blogValidate), async (ctx) => {
     const { content, image } = ctx.request.body
     const { id: userId } = ctx.session.userInfo
     ctx.body = await create({ userId, content, image })
