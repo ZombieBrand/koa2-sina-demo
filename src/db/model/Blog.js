@@ -4,7 +4,7 @@
  */
 
 const seq = require('../seq')
-const { INTEGER, STRING, DECIMA, TEXT } = require('../types')
+const { INTEGER, STRING, TEXT } = require('../types')
 
 const Blog = seq.define('blog', {
     userId: {
