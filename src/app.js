@@ -15,6 +15,7 @@ const { SESSION_SECRET_KEY } = require("./config/secretKeys")
 // 路由
 const blogHomeAPI = require('./routes/api/blog-home')
 const blogViewRouter = require('./routes/view/blog')
+const profileAPI = require('./routes/api/blog-profile')
 const users = require("./routes/view/users");
 const usersAPI = require("./routes/api/user");
 const errorViewRouter = require("./routes/view/error");
@@ -73,10 +74,11 @@ app.use(async (ctx, next) => {
 // routes
 app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods());
 app.use(blogHomeAPI.routes(), blogHomeAPI.allowedMethods());
+app.use(profileAPI.routes(), profileAPI.allowedMethods());
 app.use(users.routes(), users.allowedMethods());
 app.use(usersAPI.routes(), usersAPI.allowedMethods());
 app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods());
-app.use(errorViewRouter.routes(errorViewRouter.allowedMethods())); //404注册最后
+app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods()); //404注册最后
 // error-handling
 app.on("error", (err, ctx) => {
   console.error("server error", err, ctx);
