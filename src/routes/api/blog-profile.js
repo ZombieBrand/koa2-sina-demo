@@ -15,7 +15,9 @@ router.get('/loadMore/:userName/:pageIndex', loginCheck, async (ctx) => {
     pageIndex = parseInt(pageIndex)
     const result = await getProfileBlogList({ userName, pageIndex })
     // 渲染成页面
+    console.log(result,'result')
     result.data.blogListTpl = getBlogListStr(result.data.blogList)
+    console.log(result,'result')
     ctx.body = result
 })
 module.exports = router
