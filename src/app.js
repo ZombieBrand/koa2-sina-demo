@@ -13,6 +13,7 @@ const { REDIS_CONF } = require("./config/db");
 const { isProd } = require("./utils/env");
 const { SESSION_SECRET_KEY } = require("./config/secretKeys")
 // 路由
+const squareAPI=require('./routes/api/blog-square')
 const blogHomeAPI = require('./routes/api/blog-home')
 const blogViewRouter = require('./routes/view/blog')
 const profileAPI = require('./routes/api/blog-profile')
@@ -72,6 +73,7 @@ app.use(async (ctx, next) => {
 });
 
 // routes
+app.use(squareAPI.routes(), squareAPI.allowedMethods());
 app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods());
 app.use(blogHomeAPI.routes(), blogHomeAPI.allowedMethods());
 app.use(profileAPI.routes(), profileAPI.allowedMethods());

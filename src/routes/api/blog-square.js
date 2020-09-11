@@ -1,23 +1,23 @@
 /**
- * @description 个人主页api路由
+ * @description 广场 api 路由
  * @author ZombieBrand
  */
-
 const router = require('koa-router')()
 const { loginCheck } = require('../../middlewares/loginChecks')
-const { getProfileBlogList } = require('../../controller/blog-profile')
+const { getSquareBlogList } = require('../../controller/blog-square')
 const { getBlogListStr } = require('../../utils/blog')
-router.prefix('/api/profile')
+
+router.prefix('/api/square')
+
 
 /**
- * @api {get} /api/profile/loadMore/:userName/:pageIndex 加载更多
+ * @api {get} /api/square/loadMore/:pageIndex 获取广场的微博列表
  * @apiGroup blog
  * @apiName loadMore
- * @apiDescription 加载更多
- * @apiParam {String} userName 用户名
+ * @apiDescription 获取广场的微博列表
  * @apiParam {Number} pageIndex 当前页
  * @apiExample {curl} Example usage:
- *     curl -i http://localhost/api/profile/loadMore/test/1
+ *     curl -i http://localhost/api/square/loadMore/0
  * 
  * @apiError {String} message 错误信息
  * @apiErrorExample  {json} error-example
@@ -33,14 +33,14 @@ router.prefix('/api/profile')
  * }
  * 
  */
-router.get('/loadMore/:userName/:pageIndex', loginCheck, async (ctx) => {
-    let { userName, pageIndex } = ctx.params
+router.get('/loadMore/:pageIndex', loginCheck, async (ctx) => {
+    let { pageIndex } = ctx.params
     pageIndex = parseInt(pageIndex)
-    const result = await getProfileBlogList({ userName, pageIndex })
-    // 渲染成页面
-    console.log(result,'result')
+    const result = await getSquareBlogList(pageIndex)
+    //渲染模板
     result.data.blogListTpl = getBlogListStr(result.data.blogList)
-    console.log(result,'result')
     ctx.body = result
 })
+
+
 module.exports = router
