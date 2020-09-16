@@ -7,6 +7,7 @@ const router = require('koa-router')()
 const { loginCheck } = require('../../middlewares/loginChecks')
 const { getProfileBlogList } = require('../../controller/blog-profile')
 const { getBlogListStr } = require('../../utils/blog')
+const { follow, unFollow } = require('../../controller/user-relation')
 router.prefix('/api/profile')
 
 /**
@@ -38,9 +39,71 @@ router.get('/loadMore/:userName/:pageIndex', loginCheck, async (ctx) => {
     pageIndex = parseInt(pageIndex)
     const result = await getProfileBlogList({ userName, pageIndex })
     // 渲染成页面
-    console.log(result,'result')
+    console.log(result, 'result')
     result.data.blogListTpl = getBlogListStr(result.data.blogList)
-    console.log(result,'result')
+    console.log(result, 'result')
     ctx.body = result
+})
+
+/**
+ * @api {post} /api/profile/follow 关注
+ * @apiGroup blog
+ * @apiName follow
+ * @apiDescription 关注接口
+ * @apiParam {number} userId 用户名
+ * @apiParamExample {json} Request-Example
+ * {
+ *  "userId":"test"
+ * }
+ * 
+ * @apiError {String} message 错误信息
+ * @apiErrorExample  {json} error-example
+ * {
+ *  "errno": "10011"
+ *  "message":"添加关注失败"
+ * }
+ * 
+ * @apiSuccessExample {json} success-example
+ * {
+ *  "errno": "0"
+ *  "data":"{}"
+ * }
+ * 
+ */
+router.post('/follow', loginCheck, async (ctx) => {
+    const { id: myUserId } = ctx.session.userInfo
+    const { userId: curUserId } = ctx.request.body
+    ctx.body = await follow(myUserId, curUserId)
+})
+
+/**
+ * @api {post} /api/profile/unFollow 关注
+ * @apiGroup blog
+ * @apiName unFollow
+ * @apiDescription 取消关注接口
+ * @apiParam {number} userId 用户名
+ * @apiParamExample {json} Request-Example
+ * {
+ *  "userId":"test"
+ * }
+ * 
+ * @apiError {String} message 错误信息
+ * @apiErrorExample  {json} error-example
+ * {
+ *  "errno": "10012"
+ *  "message":"取消关注失败"
+ * }
+ * 
+ * @apiSuccessExample {json} success-example
+ * {
+ *  "errno": "0"
+ *  "data":"{}"
+ * }
+ * 
+ */
+router.post('/unFollow', loginCheck, async (ctx) => {
+    const { id: myUserId } = ctx.session.userInfo
+    const { userId: curUserId } = ctx.request.body
+    ctx.body = await unFollow(myUserId, curUserId)
 })
 module.exports = router
