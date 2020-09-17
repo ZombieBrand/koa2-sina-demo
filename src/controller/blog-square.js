@@ -6,6 +6,7 @@
 const { PAGE_SIZE } = require('../config/constant')
 const { SuccessModel } = require('../model/ResModel')
 const { getSquareCacheList } = require('../cache/blog')
+
 /**
  * 获取广场的微博列表
  * @param {number} pageIndex pageIndex

@@ -54,7 +54,7 @@ async function createUser({ userName, password, gender = 3, nickName }) {
 }
 
 /**
- * 
+ * 更新个人信息
  * @param {Object} param0 要修改的内容 {newPassword,newNickName,newPicture,newCity}
  * @param {Object} param1 查询条件 {userName,password}
  */
